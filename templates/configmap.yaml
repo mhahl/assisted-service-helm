@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "assisted-installer.fullname" . }}-config
   labels:
-    {{- include "assisted-installer.assisted.labels" . | nindent 4 }}
+    {{- include "assisted-installer.api.labels" . | nindent 4 }}
 data:
 {{- range $key, $val := .Values.config }}
 {{ $key | indent 2 }}: {{ $val | quote }}
@@ -26,7 +26,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "assisted-installer.fullname" . }}-nginx
   labels:
-    {{- include "assisted-installer.assisted.labels" . | nindent 4 }}
+    {{- include "assisted-installer.api.labels" . | nindent 4 }}
 data:
     nginx.conf: | 
         server {
@@ -35,7 +35,7 @@ data:
             root /app;
             index index.html;
             location /api {
-                proxy_pass  http://{{ include "assisted-installer.fullname" . }}-api:{{ .Values.assisted.service.port}};
+                proxy_pass  http://{{ include "assisted-installer.fullname" . }}-api:{{ .Values.api.service.port}};
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection 'upgrade';

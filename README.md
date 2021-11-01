@@ -7,6 +7,16 @@ Helm charts for deploying:
 
 ## How to do it
 
+In your values.yaml set your database settings, using an external database is not 
+yet supported.
+
+```
+postgresql:
+  postgresqlDatabase: "installer"
+  postgresqlUsername: "admin"
+  postgresqlPassword: "admin"
+```
+
 In you values.yaml set the configuration, for example:
 
 ```
@@ -35,23 +45,11 @@ config:
 
   # Enable IPV6
   IPV6_SUPPORT: true
-
-  # Values for AUTH_TYPE:
-  #
-  # * rhsso
-  # * none
-  # * local
-  # * ""
-  #
-  # RHSSO looks like its tied specficialy to the redhat-single-signon thingo
-  # TODO(mhahl): document local.
-  #
   AUTH_TYPE: none
-
   HW_VALIDATOR_REQUIREMENTS: '[{"version":"default","master":{"cpu_cores":4,"ram_mib":16384,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10,"network_latency_threshold_ms":100,"packet_loss_percentage":0},"worker":{"cpu_cores":2,"ram_mib":8192,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10,"network_latency_threshold_ms":1000,"packet_loss_percentage":10},"sno":{"cpu_cores":8,"ram_mib":32768,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10}}]'
   ENABLE_AUTO_ASSIGN: "true"
 
-  # Mandatory
+  # Change to your needs
   SERVICE_BASE_URL: "http://assisted-ui.apps.k8s.hahl.id.au"
   ASSISTED_SERVICE_URL: "http://assisted-api.apps.k8s.hahl.id.au"
 ```

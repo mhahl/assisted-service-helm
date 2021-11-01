@@ -61,8 +61,8 @@ config:
   ENABLE_AUTO_ASSIGN: "true"
 
   # Mandatory
-  SERVICE_BASE_URL: "http://assisted-ui.apps.k8s.hahl.id.au"
-  ASSISTED_SERVICE_URL: "http://assisted-api.apps.k8s.hahl.id.au"
+  SERVICE_BASE_URL: "https://assisted-ui.apps.k8s.hahl.id.au"
+  ASSISTED_SERVICE_URL: "https://assisted-api.apps.k8s.hahl.id.au"
 
 
 #
@@ -88,6 +88,7 @@ api:
     enabled: true
     className: ""
     annotations: {}
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - host: assisted-api.apps.k8s.hahl.id.au
         paths:
@@ -115,6 +116,7 @@ ui:
     registry: quay.io
     repository: ocpmetal/ocp-metal-ui
     tag: latest
+    pullPolicy: Always
 
   podAnnotations: {}
   podSecurityContext: {}
@@ -128,6 +130,7 @@ ui:
     enabled: true
     className: ""
     annotations: {}
+      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - host: assisted-ui.apps.k8s.hahl.id.au
         paths:

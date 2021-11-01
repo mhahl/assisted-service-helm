@@ -41,7 +41,7 @@ spec:
           securityContext:
             {{- toYaml .Values.ui.podSecurityContext | nindent 12 }}
           image: "{{ .Values.ui.image.registry }}/{{ .Values.ui.image.repository }}:{{ .Values.ui.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
           volumeMounts:
             - mountPath: /opt/bitnami/nginx/conf/server_blocks/
               readOnly: true

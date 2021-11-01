@@ -38,14 +38,14 @@ spec:
             - name: http
               containerPort: 8090
               protocol: TCP
-#          livenessProbe:
-#            httpGet:
-#              path: /
-#              port: 8090
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: 8090
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8090
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8090
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
       {{- with .Values.api.nodeSelector }}
