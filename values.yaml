@@ -64,12 +64,56 @@ config:
   SERVICE_BASE_URL: "https://assisted-ui.apps.k8s.hahl.id.au"
   ASSISTED_SERVICE_URL: "https://assisted-api.apps.k8s.hahl.id.au"
 
+##
+# Configure mirror registry details 
+# as well as CA certificates.
+#
+mirror_registry:
+  ca_bundle: |
+    -----BEGIN CERTIFICATE-----
+    MIIEiDCCAvCgAwIBAgIBATANBgkqhkiG9w0BAQsFADA1MRMwEQYDVQQKDApIQUhM
+    LklELkFVMR4wHAYDVQQDDBVDZXJ0aWZpY2F0ZSBBdXRob3JpdHkwHhcNMjEwMTAy
+    MDYwNTA3WhcNNDEwMTAyMDYwNTA3WjA1MRMwEQYDVQQKDApIQUhMLklELkFVMR4w
+    HAYDVQQDDBVDZXJ0aWZpY2F0ZSBBdXRob3JpdHkwggGiMA0GCSqGSIb3DQEBAQUA
+    A4IBjwAwggGKAoIBgQDXbzotzuoErYG6X2VfdtaD4g3GOPJn/lLJHs+WAPMrubXf
+    3FYDJDizXKmb6x/rEbr5xWZ9WMp/tyVbzYmZAzAQb2TyZT81QA2ayGpQJTHnmrnd
+    GLm7TuRyIMuC5f/lebNRkXWnCIfmuMHksXhS8Va6lr9GCHNVq3qDuKYiqX1S0rHx
+    YlxHSx04GWmQL7AMYeaRX1iZ+6MaAmsiH28B7BalE9UCes2sGkh75VcUCytfF7bo
+    RdMSjJjwrudAIUISaaQVCNGRybQ+p/AUxIAUH6OUtzNstaFhkEwC9PwYbNMkZttI
+    obg6Ao8YsTtNBVJsVb8xAQ0p9uBFTQdh7JFSUAtf1HhexRxF/bAIIB36EctEIlw/
+    TfwXqj6iRWYaAeMA5dn3lbcTrUn+dZXvuy8bqPcvtxiZZ/ZNWdUDH8oAFiFdPGtX
+    ol1UUrlf7Jb8+uhcaIXJxqaboVuaGMcT/l5wuzFLLk7BYTZEiS6GwjXHX2FLf8z2
+    gtkr6KFntyxiDNinci0CAwEAAaOBojCBnzAfBgNVHSMEGDAWgBR8jVFMRShF8mdK
+    dc77hE7qbAORojAPBgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwIBxjAdBgNV
+    HQ4EFgQUfI1RTEUoRfJnSnXO+4RO6mwDkaIwPAYIKwYBBQUHAQEEMDAuMCwGCCsG
+    AQUFBzABhiBodHRwOi8vaXBhLWNhLmhhaGwuaWQuYXUvY2Evb2NzcDANBgkqhkiG
+    9w0BAQsFAAOCAYEA02jUfLByT+onUREFS2DTs7k0ED+dAIpum3pO0rMTT+WrAFIz
+    jwauPtpVkvtvZvHe5MvbbxLMtIbz9DByWgyoSfTb3/V4qySS4B4BvKX50LaEfbMc
+    7ciAgFhksAjDNRr4AQ0cLljMMMxe4pzNLChdvIm1sh+X6uw5TLI8mUUwwjoIJZ2q
+    Fz00251vfouUFvsyPtkk6z7poKV0wQRi490fLvnNdHzfRoscFgQc4eWHApX9zaEU
+    db88FxXC4r0k6/v2NrFhx6HyBWt1VTdbHXUBsmG09ImaRYVQzC0eAvkuKR6lWIdO
+    mshCULmlHmxeWLJdndM72Cy+Sw6dPtXSj3A2vo8ICimjUPc6E9B3j9ilGtNum9cl
+    9N+3Ri2NpAp9PVFoSKxh0pZdIGXAhbjnfC9dZDZ5VXu8HuiwBp63KwY8spTSy33p
+    1a3A5Dw38an6nPfCzPHgxCIY1d9AvP805WtgJyvImqxv2J7IYF2/YJ3wmbaldkz+
+    5K/Fxr793tmxsLre
+    -----END CERTIFICATE-----
+
+  registries_conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/ocpmetal"
+      mirror-by-digest-only = false
+
+      [[registry.mirror]]
+      location = "mirror1.registry.corp.com:5000/ocpmetal"
 
 #
 # Options for the assisted-service API.
 #
 api:
-  replicaCount: 1
+  replicaCount: 3
   image:
     registry: quay.io
     repository: ocpmetal/assisted-service
@@ -96,13 +140,14 @@ api:
             pathType: ImplementationSpecific
     tls: []
 
+        
   resources:
-  limits:
-      cpu: 100m
-      memory: 128Mi
-  requests:
-      cpu: 100m
-      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 2000Mi
+    requests:
+      cpu: 300m
+      memory: 400Mi
 
   nodeSelector: {}
   tolerations: []
@@ -111,7 +156,7 @@ api:
 # Values for assisted-ui service.
 
 ui:
-  replicaCount: 1
+  replicaCount: 3
   image:
     registry: quay.io
     repository: ocpmetal/ocp-metal-ui

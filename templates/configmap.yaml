@@ -46,3 +46,13 @@ data:
                 try_files $uri /index.html;
             }
         }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "assisted-installer.fullname" . }}-mirror-registry-conf
+  labels:
+    {{- include "assisted-installer.api.labels" . | nindent 4 }}
+data:
+  ca-bundle.crt: {{ .Values.mirror_registry.ca_bundle | nindent 4 }}
+  registries.conf: {{ .Values.mirror_registry.registries_conf | nindent 4 }}
