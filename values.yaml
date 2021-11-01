@@ -1,0 +1,152 @@
+# Default values for assisted-installer.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+#
+# Service configuration, for more information please see:
+# https://github.com/openshift/assisted-service
+#
+# Any options specified here will be set as environment variables
+# These values are just defaults which I know work.
+#
+config:
+
+  # Generate dummy ignition configs.
+  DUMMY_IGNITION: false
+
+  # List of releases and the path to the release image.
+  OPENSHIFT_VERSIONS: '{"4.6":{"display_name":"4.6.16","release_version":"4.6.16","release_image":"quay.io/openshift-release-dev/ocp-release:4.6.16-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.8/rhcos-4.6.8-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.8/rhcos-live-rootfs.x86_64.img","rhcos_version":"46.82.202012051820-0","support_level":"production"},"4.7":{"display_name":"4.7.33","release_version":"4.7.33","release_image":"quay.io/openshift-release-dev/ocp-release:4.7.33-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.7/4.7.33/rhcos-4.7.33-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.7/4.7.33/rhcos-live-rootfs.x86_64.img","rhcos_version":"47.84.202109241831-0","support_level":"production"},"4.8":{"display_name":"4.8.14","release_version":"4.8.14","release_image":"quay.io/openshift-release-dev/ocp-release:4.8.14-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.8/4.8.14/rhcos-4.8.14-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.8/4.8.14/rhcos-live-rootfs.x86_64.img","rhcos_version":"48.84.202109241901-0","support_level":"production","default":true},"4.9":{"display_name":"4.9.0","release_version":"4.9.0","release_image":"quay.io/openshift-release-dev/ocp-release:4.9.0-x86_64","rhcos_image":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.9/4.9.0/rhcos-4.9.0-x86_64-live.x86_64.iso","rhcos_rootfs":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.9/4.9.0/rhcos-live-rootfs.x86_64.img","rhcos_version":"49.84.202110081407-0","support_level":"production"}}'
+
+  # Operating syste mimages and the URL for generating ISO
+  OS_IMAGES: '[{"openshift_version":"4.6","cpu_architecture":"x86_64","url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.8/rhcos-4.6.8-x86_64-live.x86_64.iso","rootfs_url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.8/rhcos-live-rootfs.x86_64.img","version":"46.82.202012051820-0"},{"openshift_version":"4.7","cpu_architecture":"x86_64","url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.7/4.7.33/rhcos-4.7.33-x86_64-live.x86_64.iso","rootfs_url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.7/4.7.33/rhcos-live-rootfs.x86_64.img","version":"47.84.202109241831-0"},{"openshift_version":"4.8","cpu_architecture":"x86_64","url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.8/4.8.14/rhcos-4.8.14-x86_64-live.x86_64.iso","rootfs_url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.8/4.8.14/rhcos-live-rootfs.x86_64.img","version":"48.84.202109241901-0"},{"openshift_version":"4.9","cpu_architecture":"x86_64","url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.9/4.9.0/rhcos-4.9.0-x86_64-live.x86_64.iso","rootfs_url":"https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.9/4.9.0/rhcos-live-rootfs.x86_64.img","version":"49.84.202110081407-0"},{"openshift_version":"4.9","cpu_architecture":"arm64","url":"https://mirror.openshift.com/pub/openshift-v4/aarch64/dependencies/rhcos/4.9/4.9.0/rhcos-4.9.0-aarch64-live.aarch64.iso","rootfs_url":"https://mirror.openshift.com/pub/openshift-v4/aarch64/dependencies/rhcos/4.9/4.9.0/rhcos-4.9.0-aarch64-live-rootfs.aarch64.img","version":"49.84.202110080947-0"}]'
+
+  # OCP release version
+  RELEASE_IMAGES: '[{"openshift_version":"4.6","cpu_architecture":"x86_64","url":"quay.io/openshift-release-dev/ocp-release:4.6.16-x86_64","version":"4.6.16"},{"openshift_version":"4.7","cpu_architecture":"x86_64","url":"quay.io/openshift-release-dev/ocp-release:4.7.33-x86_64","version":"4.7.33"},{"openshift_version":"4.8","cpu_architecture":"x86_64","url":"quay.io/openshift-release-dev/ocp-release:4.8.14-x86_64","version":"4.8.14","default":true},{"openshift_version":"4.9","cpu_architecture":"x86_64","url":"quay.io/openshift-release-dev/ocp-release:4.9.0-x86_64","version":"4.9.0"},{"openshift_version":"4.9","cpu_architecture":"arm64","url":"quay.io/openshift-release-dev/ocp-release:4.9.0-aarch64","version":"4.9.0"}]'
+
+  # For single node deployments
+  ENABLE_SINGLE_NODE_DNSMASQ: true
+
+  # Where public container images are located
+  PUBLIC_CONTAINER_REGISTRIES: quay.io
+
+  # ?
+  NTP_DEFAULT_SERVER: "ntp1.anu.edu.au"
+
+  # Enable IPV6
+  IPV6_SUPPORT: true
+
+  # Values for AUTH_TYPE:
+  #
+  # * rhsso
+  # * none
+  # * local
+  # * ""
+  #
+  # RHSSO looks like its tied specficialy to the redhat-single-signon thingo
+  # TODO(mhahl): document local.
+  #
+  AUTH_TYPE: none
+
+  HW_VALIDATOR_REQUIREMENTS: '[{"version":"default","master":{"cpu_cores":4,"ram_mib":16384,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10,"network_latency_threshold_ms":100,"packet_loss_percentage":0},"worker":{"cpu_cores":2,"ram_mib":8192,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10,"network_latency_threshold_ms":1000,"packet_loss_percentage":10},"sno":{"cpu_cores":8,"ram_mib":32768,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10}}]'
+  ENABLE_AUTO_ASSIGN: "true"
+
+  # Mandatory
+  SERVICE_BASE_URL: "http://assisted-ui.apps.k8s.hahl.id.au"
+  ASSISTED_SERVICE_URL: "http://assisted-api.apps.k8s.hahl.id.au"
+
+
+#
+# Options for the assisted-service API.
+#
+api:
+  replicaCount: 1
+  image:
+    registry: quay.io
+    repository: ocpmetal/assisted-service
+    tag: latest
+    pullPolicy: Always
+
+  podAnnotations: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  service:
+    type: ClusterIP
+    port: 8090
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: assisted-api.apps.k8s.hahl.id.au
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+
+  resources:
+  limits:
+      cpu: 100m
+      memory: 128Mi
+  requests:
+      cpu: 100m
+      memory: 128Mi
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+# Values for assisted-ui service.
+
+ui:
+  replicaCount: 1
+  image:
+    registry: quay.io
+    repository: ocpmetal/ocp-metal-ui
+    tag: latest
+
+  podAnnotations: {}
+  podSecurityContext: {}
+    # fsGroup: 2000
+
+  service:
+    type: ClusterIP
+    port: 8080
+
+  ingress:
+    enabled: true
+    className: ""
+    annotations: {}
+    hosts:
+      - host: assisted-ui.apps.k8s.hahl.id.au
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+  resources:
+  limits:
+      cpu: 100m
+      memory: 128Mi
+  requests:
+      cpu: 100m
+      memory: 128Mi
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+postgresql:
+  postgresqlDatabase: "installer"
+  postgresqlUsername: "admin"
+  postgresqlPassword: "admin"

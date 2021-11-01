@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "assisted-installer.fullname" . }}-api
+  labels:
+    {{- include "assisted-installer.api.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.api.service.type }}
+  ports:
+    - port: {{ .Values.api.service.port }}
+      targetPort: 8090
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "assisted-installer.api.selectorLabels" . | nindent 4 }}

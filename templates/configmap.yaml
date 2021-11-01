@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "assisted-installer.fullname" . }}-config
+  labels:
+    {{- include "assisted-installer.assisted.labels" . | nindent 4 }}
+data:
+{{- range $key, $val := .Values.config }}
+{{ $key | indent 2 }}: {{ $val | quote }}
+{{- end}}
+  POSTGRESQL_DATABASE: {{ .Values.postgresql.postgresqlDatabase | quote }}
+  POSTGRESQL_PASSWORD: {{ .Values.postgresql.postgresqlPassword | quote }}
+  POSTGRESQL_USER: {{.Values.postgresql.postgresqlUsername | quote }}
+  DB_HOST: "{{ .Release.Name }}-postgresql"
+  DB_PORT: "5432"
+  DB_USER: {{ .Values.postgresql.postgresqlUsername | quote }}
+  DB_PASS: {{ .Values.postgresql.postgresqlPassword | quote }}
+  DB_NAME: {{ .Values.postgresql.postgresqlDatabase | quote }}
+  DEPLOY_TARGET: "onprem"
+  STORAGE: "filesystem"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "assisted-installer.fullname" . }}-nginx
+  labels:
+    {{- include "assisted-installer.assisted.labels" . | nindent 4 }}
+data:
+    nginx.conf: | 
+        server {
+            listen 8080;
+            server_name _;
+            root /app;
+            index index.html;
+            location /api {
+                proxy_pass  http://{{ include "assisted-installer.fullname" . }}-api:{{ .Values.assisted.service.port}};
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+            }
+            location / {
+                try_files $uri /index.html;
+            }
+        }
