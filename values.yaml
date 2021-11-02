@@ -52,9 +52,6 @@ config:
   # * local
   # * ""
   #
-  # RHSSO looks like its tied specficialy to the redhat-single-signon thingo
-  # TODO(mhahl): document local.
-  #
   AUTH_TYPE: none
 
   HW_VALIDATOR_REQUIREMENTS: '[{"version":"default","master":{"cpu_cores":4,"ram_mib":16384,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10,"network_latency_threshold_ms":100,"packet_loss_percentage":0},"worker":{"cpu_cores":2,"ram_mib":8192,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10,"network_latency_threshold_ms":1000,"packet_loss_percentage":10},"sno":{"cpu_cores":8,"ram_mib":32768,"disk_size_gb":120,"installation_disk_speed_threshold_ms":10}}]'
@@ -67,6 +64,9 @@ config:
 ##
 # Configure mirror registry details 
 # as well as CA certificates.
+#
+# See: 
+# * https://github.com/openshift/assisted-service/blob/master/docs/operator.md
 #
 mirror_registry:
   ca_bundle: |
@@ -106,14 +106,14 @@ mirror_registry:
       location = "quay.io/ocpmetal"
       mirror-by-digest-only = false
 
-      [[registry.mirror]]
-      location = "mirror1.registry.corp.com:5000/ocpmetal"
+     [[registry.mirror]]
+       location = "mirror1.registry.corp.com:5000/ocpmetal"
 
 #
 # Options for the assisted-service API.
 #
 api:
-  replicaCount: 3
+  replicaCount: 1
   image:
     registry: quay.io
     repository: ocpmetal/assisted-service
@@ -156,7 +156,7 @@ api:
 # Values for assisted-ui service.
 
 ui:
-  replicaCount: 3
+  replicaCount: 1
   image:
     registry: quay.io
     repository: ocpmetal/ocp-metal-ui

@@ -50,8 +50,29 @@ config:
   ENABLE_AUTO_ASSIGN: "true"
 
   # Change to your needs
-  SERVICE_BASE_URL: "http://assisted-ui.apps.k8s.hahl.id.au"
-  ASSISTED_SERVICE_URL: "http://assisted-api.apps.k8s.hahl.id.au"
+  SERVICE_BASE_URL: "https://assisted-ui.apps.k8s.hahl.id.au"
+  ASSISTED_SERVICE_URL: "https://assisted-api.apps.k8s.hahl.id.au"
+```
+
+You might also like to change:
+```
+
+mirror_registry:
+  ca_bundle: |
+    -----BEGIN CERTIFICATE-----
+    <certificate>
+    -----END CERTIFICATE-----
+
+  registries_conf: |
+    unqualified-search-registries = ["registry.access.redhat.com", "docker.io"]
+
+    [[registry]]
+      prefix = ""
+      location = "quay.io/ocpmetal"
+      mirror-by-digest-only = false
+
+     [[registry.mirror]]
+       location = "mirror1.registry.corp.com:5000/ocpmetal"
 ```
 
  Then deploy.
