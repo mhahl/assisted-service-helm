@@ -5,6 +5,10 @@ Helm charts for deploying:
 * https://github.com/openshift/assisted-service/
 * https://github.com/openshift-assisted/assisted-ui
 
+
+
+![Screenshot](https://imgur.com/m09fzhX.png)
+
 ## How to do it
 
 In your values.yaml set your database settings, using an external database is not 
@@ -55,8 +59,8 @@ config:
 ```
 
 You might also like to change:
-```
 
+```
 mirror_registry:
   ca_bundle: |
     -----BEGIN CERTIFICATE-----
